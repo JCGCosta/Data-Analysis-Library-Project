@@ -2,14 +2,6 @@
 # -*- coding: utf-8 -*-
 # env: python 3.7
 
-# TODO: 1.Media aritimetica entre os valores das informações de todos os pontos por cor (OK)
-# TODO: 2.Importancia calculada entre(distancia) os pontos representativos e o novo ponto (OK)
-# TODO: 3.Comparar os resultados obtidos no 1 e 2 (OK)
-# TODO: 4.Efetuar um indice de disperção dos pontos de cada cor em cada eixo, e assim encontrar a relevancia de cada eixo para cada cor (OK)
-# TODO: 5.Estudar cenarios previos muito bem definidos (OK)
-# TODO: 6.Criação de N cenarios estimados, estimulando assim o pensamento previo ()
-# TODO: 7.Usar o tempo como dimensão possivel, e levar os diferentes cenarios temporais ao surgimento de uma nova informação ()
-
 # imports
 # noinspection PyUnresolvedReferences
 from mpl_toolkits.mplot3d import axes3d
