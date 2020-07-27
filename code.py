@@ -68,6 +68,7 @@ for i2 in data:
 
 # printing the data frame
 print("The data frame we are working with:\n", data, "\n")
+print("*-----------------------------------------------------------------------*")
 
 # converting the string data from raw txt into float values
 xg, yg, zg, perg = [float(i) for i in xg], [float(i) for i in yg], [float(i) for i in zg], [float(i) for i in perg]
@@ -86,7 +87,7 @@ resmp = ['green', 'red', 'blue']
 # calculation, plots configuration and op input checking
 axisdisp = [0, 0.25, 0.5, 0.75, 1]
 fig = ""
-op = input("Add a new point? Yes(1) / No (0): ")
+op = input("\nAdd a new point? Yes(1) / No (0): ")
 
 if op == '1':
 
@@ -110,11 +111,40 @@ if op == '1':
     apy = float(input("Y: "))
     apz = float(input("Z: "))
 
-    # 1. First Method
+    # Axis dispersion index
+    print("\n*-----------------------------------------------------------------------*")
+    print("\nAxis Dispersion:\n")
+    dxi, dyi, dzi = [], [], []
+    marker = ""
+    for c in resmp:
+        for h in data:
+            if h[3] == c:
+                dxi, dyi, dzi = dxi + [h[0]],\
+                                dyi + [h[1]],\
+                                dzi + [h[2]]
+        arrx, arry, arrz = biggersmallervalue(dxi), biggersmallervalue(dyi), biggersmallervalue(dzi)
+        if arrx[1] <= apx <= arrx[2]:
+            marker = "* "
+        print(marker + "The Dispersion of " + c + " X is " + str(round(arrx[0], 16)) + " between " + str(arrx[1]) + " and " + str(arrx[2]))
+        marker = ""
+        if arry[1] <= apy <= arry[2]:
+            marker = "* "
+        print(marker + "The Dispersion of " + c + " Y is " + str(round(arry[0], 16)) + " between " + str(arry[1]) + " and " + str(arry[2]))
+        marker = ""
+        if arrz[1] <= apz <= arrz[2]:
+            marker = "* "
+        print(marker + "The Dispersion of " + c + " Z is " + str(round(arrz[0], 16)) + " between " + str(arrz[1]) + " and " + str(arrz[2]) + "\n")
+        marker = ""
+        dxi, dyi, dzi, arrx, arry, arrz = [], [], [], [], [], []
 
-    print("\n1. First Method:")
+    print("P.s.: Lines marked with * are pertinent to the added point. (" + str(apx) + ", " + str(apy) + ", " + str(apz) + ")")
+
+    # 1. First Predict Method
+
+    print("\n*-----------------------------------------------------------------------*")
+    print("\n1. First Predict Method:")
     print("\nThe new information sorted by euclidean distance(each point):")
-    print("Proximity -> [X, Y, Z, Universe, Point Importance, Distance, RealRelevance]")
+    print("Proximity -> [X, Y, Z, Universe, Point Relevance, Distance, RealRelevance]")
 
     # calculating how important is the information for each point in universe
     matdis = []
@@ -124,7 +154,7 @@ if op == '1':
     matdisD = sorted(matdis, key=sortby)
 
     for c, e in enumerate(matdisD):
-        # add importance
+        # add Relevance
         matdisD[c] = matdisD[c] + [((mt.sqrt(3)-e[5])/mt.sqrt(3))*float(e[4])]
         print(str(c+1) + "° -> " + str(matdisD[c]))
 
@@ -148,9 +178,10 @@ if op == '1':
     for c, e in enumerate(m):
         print(str(3 - c) + "° -> " + str(m[c]))
 
-    # 2. Second Method
+    # 2. Second Predict Method
 
-    print("\n2. Second Method:")
+    print("\n*-----------------------------------------------------------------------*")
+    print("\n2. Second Predict Method:")
     print("\nThe new information sorted by euclidean distance(repr point):")
     print("Proximity -> [X, Y, Z, Universe, Distance, RealRelevance]")
 
@@ -166,25 +197,11 @@ if op == '1':
     matdisD22 = sorted(matdisD2, key=sortby2)
 
     for c, e in enumerate(matdisD22):
-        # add importance
+        # add Relevance
         matdisD22[c] = matdisD22[c] + [(mt.sqrt(3)-e[4])/mt.sqrt(3)]
         print(str(c+1) + "° -> " + str(matdisD22[c]))
 
-    # 3. Axis dispersion index
-
-    print("\n3. Axis Dipersion:")
-    dxi, dyi, dzi = [], [], []
-    for c in resmp:
-        for h in data:
-            if h[3] == c:
-                dxi, dyi, dzi = dxi + [h[0]],\
-                                dyi + [h[1]],\
-                                dzi + [h[2]]
-        print("The Dispersion of " + c + " X is " + str(round(biggersmallervalue(dxi)[0], 16)) + " between " + str(biggersmallervalue(dxi)[1]) + " and " + str(biggersmallervalue(dxi)[2]))
-        print("The Dispersion of " + c + " Y is " + str(round(biggersmallervalue(dyi)[0], 16)) + " between " + str(biggersmallervalue(dyi)[1]) + " and " + str(biggersmallervalue(dyi)[2]))
-        print("The Dispersion of " + c + " Z is " + str(round(biggersmallervalue(dzi)[0], 16)) + " between " + str(biggersmallervalue(dzi)[1]) + " and " + str(biggersmallervalue(dzi)[2]) + "\n")
-        dxi, dyi, dzi = [], [], []
-
+    print("\n*-----------------------------------------------------------------------*")
     # ploting the new info
     ax3.scatter(x, y, z, zdir='z', c=res, s=15)
     ax3.scatter(apx, apy, apz, zdir='z', c='y', s=40)
@@ -251,6 +268,6 @@ if op == '1':
         logfile = open("logs/log" + padd + ".txt", "w+")
         logfile.write("The new point: " + "X:" + str(apx) + " Y:" + str(apy) + " Z:" + str(apz) + "\n")
         logfile.write("The euclidean distance data:\n")
-        logfile.write("Proximity -> [X, Y, Z, Color, Point Importance, Distance, RealRelevance]\n")
+        logfile.write("Proximity -> [X, Y, Z, Color, Point Relevance, Distance, RealRelevance]\n")
         for c, e in enumerate(matdisD):
             logfile.write(str(c+1) + " -> " + str(e) + "\n")
