@@ -1,6 +1,6 @@
 # Estudo da informação em algoritmos de leitura sensorial continua
 # -*- coding: utf-8 -*-
-# env: python 3.7
+# env: python 3.7 (k37)
 
 # imports
 # noinspection PyUnresolvedReferences
@@ -10,6 +10,20 @@ import matplotlib.pyplot as plt
 import math as mt
 
 # functions
+
+
+# noinspection PyShadowingNames
+def biggersmallervalue(arr):
+    arrin = [float(i) for i in arr]
+    maior = 0
+    menor = arrin[0]
+    for i in arrin:
+        if i > maior:
+            maior = i
+        if i < menor:
+            menor = i
+    result = maior - menor
+    return [result, menor, maior]
 
 
 def euclideandist(x1, y1, z1, x2, y2, z2):
@@ -129,7 +143,7 @@ if op == '1':
     tempm = np.array([[mb, "blue"], [mr, "red"], [mg, "green"]])
     m = tempm[np.argsort(tempm[:, 0])]
     del tempm, relb, relr, relg, cb, cr, cg, matdis
-    print("\nAverage of relevance by each color:")
+    print("\nThe Relevance average by each color:")
 
     for c, e in enumerate(m):
         print(str(3 - c) + "° -> " + str(m[c]))
@@ -158,28 +172,18 @@ if op == '1':
 
     # 3. Axis dispersion index
 
-    if input("\nSearch Axis dispersion by specific universe? Yes(1) / No (0): ") == '1':
+    print("\n3. Axis Dipersion:")
+    dxi, dyi, dzi = [], [], []
+    for c in resmp:
+        for h in data:
+            if h[3] == c:
+                dxi, dyi, dzi = dxi + [h[0]],\
+                                dyi + [h[1]],\
+                                dzi + [h[2]]
+        print("The Dispersion of " + c + " X is " + str(round(biggersmallervalue(dxi)[0], 16)) + " between " + str(biggersmallervalue(dxi)[1]) + " and " + str(biggersmallervalue(dxi)[2]))
+        print("The Dispersion of " + c + " Y is " + str(round(biggersmallervalue(dyi)[0], 16)) + " between " + str(biggersmallervalue(dyi)[1]) + " and " + str(biggersmallervalue(dyi)[2]))
+        print("The Dispersion of " + c + " Z is " + str(round(biggersmallervalue(dzi)[0], 16)) + " between " + str(biggersmallervalue(dzi)[1]) + " and " + str(biggersmallervalue(dzi)[2]) + "\n")
         dxi, dyi, dzi = [], [], []
-        for c in resmp:
-            for h in data:
-                if h[3] == c:
-                    dxi, dyi, dzi = dxi + [["X"] + [c] + [h[0]] + [h[4]]],\
-                                    dyi + [["Y"] + [c] + [h[1]] + [h[4]]],\
-                                    dzi + [["Z"] + [c] + [h[2]] + [h[4]]]
-        Universe = input("Which universe: (red, green, blue): ")
-        print("\n3. Axis dispersion index:")
-        print("\n[Axis, Universe, Position, Relevance]")
-        for h in dxi:
-            if Universe == h[1]:
-                print(h)
-        print("")
-        for h in dyi:
-            if Universe == h[1]:
-                print(h)
-        print("")
-        for h in dzi:
-            if Universe == h[1]:
-                print(h)
 
     # ploting the new info
     ax3.scatter(x, y, z, zdir='z', c=res, s=15)
