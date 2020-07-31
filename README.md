@@ -11,3 +11,5 @@ To run this project you will need:
 * The Numpy Libraby Installed in this env. (pip install numpy)
 
 This algorithm was made for study purposes only.
+
+![alt text](https://github.com/JCGCosta/PrevAlgorithm2020/blob/master/FlowchartPrevAlgorithmEN.png?raw=true)
