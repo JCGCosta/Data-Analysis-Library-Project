@@ -1,4 +1,4 @@
-# PrevAlgorithm
+# Data Mining
 This is a Machine Learning Project, based on 
 * Cartesian plans
 * Euclidean Distance
